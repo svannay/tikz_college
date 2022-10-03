@@ -1,0 +1,35 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = fr
+% !TeX program = xelatex
+\documentclass[11pt]{report}
+\usepackage{../styles/preambule_college}
+\usepackage{../styles/preambule_personnalisation}
+
+\begin{document}
+\begin{tikzpicture}
+	\draw[->,trait] (-3,0) -- (4.6,0);
+	\draw[texte] (4.43,0.04) node [anchor=south west] {$O_x$};
+	\draw[->,trait] (0,-3) -- (0,3);
+	\draw[texte] (0.05,2.78) node [anchor=west] {$O_y$};
+	\clip(-3,-3) rectangle (4.6,3);
+	\draw[texte] (0,0) node [anchor=north east] {$O$};	
+	\draw[trait, color=bleu, smooth,samples=100,domain=-3.0:4.6] plot(\x,{0-0.25*(\x)^3+1.1*(\x)^2-1.5});
+	\draw [texte](-1.95,2.25) node[anchor=north west] {$f$};
+	\draw [trait,tille] (2,0)-- (2,0.9);
+	\draw [trait,tille] (2,0.9)-- (0,0.9);
+	\fill [point] (2,0.9) circle (1.5pt);
+	\draw[texte] (2.75,0.85) node {$\big(a,f(a)\big)$};
+	\fill [point] (2,0) circle (1.5pt);
+	\draw[texte] (2,-0.3) node {$a$};
+	\fill [point] (0,0.9) circle (1.5pt);
+	\draw[texte] (-0.44,0.9) node {$f(a)$};
+	\fill [point] (-1.05,0) circle (1.5pt);
+	\draw[texte] (-1.24,-0.3) node {$C$};
+	\fill [point] (1.42,0) circle (1.5pt);
+	\draw[texte] (1.55,-0.3) node {$E$};
+	\fill [point] (4.03,0) circle (1.5pt);
+	\draw[texte] (3.83,-0.3) node {$F$};
+	\fill [point] (0,-1.5) circle (1.5pt);
+	\draw[texte] (0.2,-1.75) node {$D$};
+\end{tikzpicture}
+\end{document}

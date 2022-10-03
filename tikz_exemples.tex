@@ -1,0 +1,376 @@
+% !TeX encoding = UTF-8
+% !TeX program = xelatex
+% !TeX spellcheck = fr
+\documentclass[0pt,a4paper]{report}
+
+\usepackage[informatique]{styles/preambule_college}
+\usepackage{styles/preambule_personnalisation}
+
+
+\usepackage{pst-poker}
+
+
+
+
+
+\title{Fiches pratiques}
+\author{S. Vannay}
+\date{12.09.2022}
+
+\begin{document}
+
+
+
+
+
+\chapterFormat
+\chapter*{Exemples en TikZ}
+
+
+
+
+
+\section{Exemple de flow chart}
+
+\pagestyle{empty}
+
+%% ----------------------------------------------------------------------------------------------------------------
+%% Diagrammes de flux : style des nœuds et des flèches
+%% ----------------------------------------------------------------------------------------------------------------
+%\tikzstyle{terminal}=[ellipse, draw, on grid=false]
+%\tikzstyle{processus}=[rectangle, draw, on grid=false, minimum width=10em, text centered, minimum height=1cm]
+%\tikzstyle{branchement}=[diamond, draw, on grid=false, aspect=2.5, minimum width = 3cm, text badly centered, inner sep=2pt] %, minimum height = 1cm
+%\tikzstyle{es}=[trapezium, draw, on grid=false, trapezium left angle=60, trapezium right angle=120, text width = 2.5cm, text centered, minimum width = 1.5cm, minimum height = .8cm]
+%\tikzstyle{seq}=[draw, ->, >=stealth', thick, rounded corners=4pt]
+	
+\begin{tikzpicture}[node distance = 1.75cm, auto]
+	%
+	% placement des nœuds
+	%
+	\node[terminal] (debut) {Début};
+	\node[es, below of= debut] (lire) {Lire la liste};
+	\node[processus, below of= lire, text width= 3.5cm] (initI) {i $\leftarrow$ 9};
+	\node [below of= initI, yshift= .5cm] (n0) [circle, fill=black ,draw,inner sep=1pt] {};
+	\node[branchement, below of= n0, yshift= .5cm, text width=1.5cm] (test1) {i == 0};
+	\node[processus, below of= test1, text width= 3.5cm] (initJ) {j $\leftarrow$ 0};
+	\node [below of= initJ, yshift= .5cm] (n1) [circle, fill=black ,draw,inner sep=1pt] {};
+	\node[branchement, below of= n1, text width=1.5cm, yshift=.5cm] (test2) {j == i};
+	\node[branchement, below of= test2, text width=1.5cm, yshift=-.25cm] (test3) {carte j+1 < carte j };
+	\node[processus, right of= test2, xshift= 6cm] (increment) {j $\leftarrow$ j $+$ 1};
+	\node[processus, left of= test2, xshift= -3cm] (decrement) {i $\leftarrow$ i $-$ 1};
+	\node[processus, right of= test3, xshift= 3cm] (permutation) {carte j $\leftrightarrow$ carte j+1};
+	\node[terminal, right of= test1, xshift= 3cm] (fin) {Fin};
+	%
+	% Placement des flèches
+	%
+	\draw[seq] (debut) -- (lire);
+	\draw[seq] (lire) -- (initI);
+	\draw[seq] (initI) -- (n0);
+	\draw[seq] (n0) -- (test1);
+	\draw[seq] (test1) -- (initJ) node[midway, swap]{non};
+	\draw[seq] (initJ) -- (n1);
+	\draw[seq] (n1) -- (test2);
+	\draw[seq] (test2) -- (test3) node[midway, swap]{non};
+	\draw[seq] (test1) -- (fin) node[near start]{oui};
+	\draw[seq] (test2) -- (decrement) node[near start]{oui};
+	\draw[seq] (test3) -- (permutation) node[midway]{oui};
+	\draw[seq] (decrement) |- (n0);
+	\draw[seq] (increment) |- (n1);
+	\draw[seq] (permutation) -| (increment);
+	\draw[seq] (test3) |- +(0,-2cm) node[near start, swap]{non} -| (increment);
+\end{tikzpicture}
+
+
+
+
+
+\newpage
+
+
+
+
+
+\section{Exemple de flèches dans un texte}
+
+\tikzset{every edge/.style = {trait, rouge, ->}}
+
+\[
+	\begin{IEEEeqnarraybox*}{CCCC/C}
+		\pgfmark{f11debut}\big( \tikzmarknode{a11}{3x} &-& \tikzmarknode{a12}{1} \big)^2\pgfmark{f11fin} &=& \pgfmark{f12debut}9x^2 -6x +1\pgfmark{f12fin} \\[1cm]
+		\color{blue}\pgfmark{f13debut}\big( \tikzmarknode{b11}{a} &\color{blue}-& \color{blue}\tikzmarknode{b12}{b} \big)^2\pgfmark{f13fin} &\color{blue}=& \color{blue}\pgfmark{f14debut}a^2 -2ab + b^2\pgfmark{f14fin} \\[1cm]
+		\color{blue}\tikzmarknode{c11}{a=3x} & & \color{blue}\tikzmarknode{c12}{b=1}
+	\end{IEEEeqnarraybox*}
+\]
+
+\[
+	\begin{IEEEeqnarraybox*}{CCCC/CCCCCCC}
+		\pgfmark{f21debut}\big( \tikzmarknode{a21}{2x} &-& \tikzmarknode{a22}{3} \big)^3\pgfmark{f21fin} &=& \pgfmark{f22debut}8x^3 &-& 36x^2 &+& 54x &-& 27\pgfmark{f22fin} \\
+		\color{blue}\pgfmark{f23debut}\big( \tikzmarknode{b21}{a} &\color{blue}-& \color{blue}\tikzmarknode{b22}{b} \big)^3\pgfmark{f23fin} &\color{blue}=& \color{blue} \pgfmark{f24debut}a^3 &\color{blue}-& \color{blue}3a^2b & \color{blue}+& \color{blue}3ab^2 & \color{blue}-& \color{blue}b^3\pgfmark{f24fin} \\[.5cm]
+		\color{blue}\tikzmarknode{c21}{a=2x} & & \color{blue}\tikzmarknode{c22}{b=3}
+	\end{IEEEeqnarraybox*}
+\]
+\begin{tikzpicture}[remember picture, overlay]
+	\draw[trait,rouge] ([shift={(-.5ex,-1ex)}]pic cs:f11debut) -- ++(0ex,2ex);
+	\draw[trait,rouge] ([shift={(-.5ex,-1ex)}]pic cs:f11debut) -- ([shift={(.5ex,-1ex)}]pic cs:f11fin) -- ++(0ex,2ex);
+	\draw[trait,rouge] ([shift={(-.5ex,3ex)}]pic cs:f13debut) -- +(0ex,-2ex);
+	\draw[trait,rouge] ([shift={(-.5ex,3ex)}]pic cs:f13debut) -- ([shift={(.5ex,3ex)}]pic cs:f13fin) -- +(0ex,-2ex);
+	\draw[trait,rouge] ([shift={(-.5ex,3ex)}]pic cs:f14debut) -- +(0ex,-2ex);
+	\draw[trait,rouge] ([shift={(-.5ex,3ex)}]pic cs:f14debut) -- ([shift={(.5ex,3ex)}]pic cs:f14fin) -- +(0ex,-2ex);
+	\draw[trait,rouge] ([shift={(-.5ex,-1ex)}]pic cs:f12debut) -- ++(0ex,2ex);
+	\draw[trait,rouge] ([shift={(-.5ex,-1ex)}]pic cs:f12debut) -- ([shift={(.5ex,-1ex)}]pic cs:f12fin) -- ++(0ex,2ex);
+	\coordinate[below=1ex of $(pic cs:f11debut)!0.5!(pic cs:f11fin)$] (f11);
+	\coordinate[below=1ex of $(pic cs:f12debut)!0.5!(pic cs:f12fin)$] (f12);
+	\coordinate[above=3ex of $(pic cs:f13debut)!0.5!(pic cs:f13fin)$] (f13);
+	\coordinate[above=3ex of $(pic cs:f14debut)!0.5!(pic cs:f14fin)$] (f14);
+	\draw[trait] (f11) edge node[centered, right, font=\scriptsize] {(a)} (f11 |- f13);
+	\draw ([shift={(0ex,-1ex)}]pic cs:b11) edge node[centered,left, font=\scriptsize] {(b)} ([shift={(0ex,2ex)}]pic cs:c11);
+	\draw ([shift={(0ex,-1ex)}]pic cs:b12) edge node[centered,left, font=\scriptsize] {(b)} ([shift={(0ex,2ex)}]pic cs:c12);
+	\draw ([shift={(1.5em,.75ex)}]pic cs:c12) edge[bend right] node[above=.75ex, pos=.35, font=\scriptsize] {(c)} ([shift={(0ex,-4ex)}]f14);
+	\draw[trait] (f14) edge node[centered, right, font=\scriptsize] {(d)} (f14 |- f12);
+	\iftikzmarkoncurrentpage{c22}% Pour gérer un éventuel saut de page ici
+		\draw ([shift={(0ex,-1ex)}]pic cs:b21) edge ([shift={(0ex,2ex)}]pic cs:c21);
+		\draw ([shift={(0ex,-1ex)}]pic cs:b22) edge ([shift={(0ex,2ex)}]pic cs:c22);
+	\fi
+\end{tikzpicture}
+
+
+
+
+
+\newpage
+
+
+
+
+
+\section{Configuration de axis}
+
+% Pour avoir une partie des labels à gauche de l'axe des y et une partie à droite !
+
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+	\begin{axis}[
+			x=1.0cm,y=1.0cm,
+			axis lines=middle,
+			grid style=dashed,
+			xmin=-3.8,
+			xmax=3.8,
+			ymin=-3.8,
+			ymax=3.8,
+			xtick={-3.0,-2.0,...,3.0},
+			ytick={pi/2, pi},
+			yticklabels={$\frac{\pi}{2}$, $\pi$},
+			extra y ticks={-pi/2, -pi},
+			extra y tick style={yticklabel style={xshift=0.5ex, anchor=west}},
+			extra y tick labels={$-\frac{\pi}{2}$, $-\pi$,}
+		]
+		\clip(-3.8,-3.8) rectangle (3.8,3.8);
+		\draw [trait,tille,domain=-3.8:0.0] plot(\x,{(--pi/2-0.*\x)/-1.});
+		\draw [trait,tille,domain=0.0:3.8] plot(\x,{(--pi/2-0.*\x)/1.});
+		\draw[trait,rouge,smooth,samples=100,domain=-3.8:3.8] plot(\x,{(atan(\x))/180*pi});
+	\end{axis}
+\end{tikzpicture}
+
+
+
+
+
+\newpage
+
+
+
+
+
+\section{Scratch}
+
+% ----------------------------------------------------------------------------------------------------------------
+% Ajout d'un bloc oval pour les messages (reprise et ajout à scratch3.sty)
+% ----------------------------------------------------------------------------------------------------------------
+\expandafter\edef\csname scr\string _restorecatcode\endcsname{\catcode`\noexpand\_=\the\catcode`\_\relax}
+\catcode`\_11
+\long\def\scr_eearg#1#2{\expandafter\scr_eearg_i\expandafter{#2}{#1}}\let\scr_eexparg\scr_eearg
+\long\def\scr_eeearg#1#2{\expandafter\expandafter\expandafter\scr_eearg_i\expandafter\expandafter\expandafter{#2}{#1}}%
+\long\def\scr_eearg_i#1#2{#2{#1}}
+\long\def\scr_first#1#2{#1}
+\long\def\scr_second#1#2{#2}
+\long\def\scr_ifempty#1{\scr_ifempty_i#1\_nil\_nil\scr_second\scr_first\__nil}%
+\long\def\scr_ifempty_i#1#2\_nil#3#4#5\__nil{#4}
+\newcommand*\ovalevent{%
+	\scr_ifstar
+	{\scr_ovalbox1{screvent}}
+	{\scr_ovalbox0{screvent}}%
+}
+
+
+
+\begin{center}
+	\begin{scratch}[scale=.75]
+		\blockinit{quand \greenflag est cliqué}
+		\blocklook{dire \ovalnum{Tu peux retirer 1, 2 ou 3 allumettes...} pendant \ovalnum{2} secondes}
+		\blocklook{dire \ovalnum{Celui qui prend la dernière allumette a gagné.} pendant \ovalnum{2} secondes}
+		\blockrepeat{répéter jusqu'à ce que \booloperator{\ovalvariable{allumettesRestantes} < \ovalnum{1}}}{
+			\blocksensing{demander \ovalnum{Combien veux-tu en prendre : 1, 2 ou 3 ?} et attendre}
+			\blockifelse{si \booloperator{\booloperator{\ovalnum{0} < \ovalsensing{réponse}} et \booloperator{\ovalsensing{réponse} < \ovalnum{4}}} alors}
+			{
+				\blockvariable{mettre \selectmenu{aEnlever} à \ovalsensing{réponse}}
+			}
+			{
+				\blocklook{dire \ovalnum{On avait dit un nombre entre 1 et 3.} pendant \ovalnum{2} secondes}
+				\blockvariable{mettre \selectmenu{aEnlever} à \ovaloperator{nombre aléatoire entre \ovalnum{1} et \ovalnum{3}}}
+				\blocklook{dire \ovaloperator{regrouper \ovaloperator{regrouper \ovalnum{Ce sera } et \ovalvariable{aEnlever}} et \ovalnum{.}} pendant \ovalnum{2} secondes}
+			}
+			\blockevent{envoyer à tous \ovalevent*{effacer} et attendre}
+			\blockvariable{mettre \selectmenu{aEnlever} à \ovaloperator{\ovalnum{4} - \ovalvariable{aEnlever}}}
+			\blocklook{dire \ovaloperator{regrouper \ovaloperator{regrouper \ovalnum{Moi, j'en prends } et \ovalvariable{aEnlever}} et \ovalnum{.}} pendant \ovalnum{2} secondes}
+			\blockevent{envoyer à tous \ovalevent*{effacer} et attendre}
+		}
+		\blocklook{dire \ovalnum{Oh, j'ai gagné ! Heureux hasard...}}
+		\blockstop{stop \selectmenu{tout}}
+	\end{scratch}
+\end{center}
+
+
+
+
+
+\newpage
+
+
+
+
+
+\section{Arbre binaire}
+
+% ----------------------------------------------------------------------------------------------------------------
+% Définitions pour l'arbre binaire
+% ----------------------------------------------------------------------------------------------------------------
+\tikzset{
+	treenode/.style = {align=center, inner sep=0pt, text centered, circle, text width=2.5em},
+	non/.style = {above left, font=\footnotesize},
+	oui/.style = {above right, font=\footnotesize},
+}
+
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=7cm]
+\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=3.5cm]
+\tikzstyle{level 3}=[level distance=1.5cm, sibling distance=2cm]
+
+
+
+\begin{tikzpicture}
+	[->,>=stealth]%,level/.style={sibling distance = 7cm/#1, level distance = 1.5cm}] 
+	\node [treenode] {$x \geqslant 4$}
+	child{ node [treenode] {$x \geqslant 2$}
+		child{ node [treenode] {$x \geqslant 1$}
+			child{ node [treenode] {$x = 0$}
+				edge from parent node[non]{Non}
+			}
+			child{ node [treenode] {$x = 1$}
+				edge from parent node[oui]{Oui}
+			}
+			edge from parent node[non]{Non}
+		}
+		child{ node [treenode] {$x \geqslant 3$}
+			child{ node [treenode] {$x = 2$}
+				edge from parent node[non]{Non}
+			}
+			child{ node [treenode] {$x = 3$}
+				edge from parent node[oui]{Oui}
+			}
+			edge from parent node[oui]{Oui}
+		}
+		edge from parent node[non]{Non}
+	}
+	child{ node [treenode] {$x \geqslant 6$}
+		child{ node [treenode] {$x \geqslant 5$}
+			child{ node [treenode] {$x = 4$}
+				edge from parent node[non]{Non}
+			}
+			child{ node [treenode] {$x = 5$}
+				edge from parent node[oui]{Oui}
+			}
+			edge from parent node[non]{Non}
+		}
+		child{ node [treenode] {$x \geqslant 7$}
+			child{ node [treenode] {$x = 6$}
+				edge from parent node[non]{Non}
+			}
+			child{ node [treenode] {$x = 7$}
+				edge from parent node[oui]{Oui}
+			}
+			edge from parent node[oui]{Oui}
+		}
+		edge from parent node[oui]{Oui}
+	}; 
+\end{tikzpicture}
+
+
+
+
+
+
+\newpage
+
+
+
+
+
+\section{Jeu de cartes}
+
+% ----------------------------------------------------------------------------------------------------------------
+% Affichage des cartes à jouer et flèches dans les tableaux de tri
+% ----------------------------------------------------------------------------------------------------------------
+\tikzstyle{every picture} += [remember picture, baseline]
+% Introduce a new counter for counting the nodes needed for circling
+\newcounter{nodecount}
+% Command for making a new node and naming it according to the nodecount counter
+\newcommand\tabnode[1]{\addtocounter{nodecount}{1} \tikz \node[text depth=1ex, text height=1ex, text width=1cm] (\arabic{nodecount}) {#1};}
+\tikzstyle{perm}=[draw, <->, >=stealth', very thick,blue]
+\tikzstyle{sep}=[draw, thick, dash pattern=on 2pt off 2pt, blue]
+\tikzstyle{decal}=[draw, <-, >=stealth', very thick,blue]
+
+
+
+%\begin{figure}[H]
+%	\centering
+%	\psset{unit=.7}
+%	\begin{tabular}{*{10}c}
+%		0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+%		\crdnineh & \crdfiveh & \crdsevh & \crdfourh & \crdtwoh & \crdeigh & \crdAh & \crdtenh & \crdsixh & \crdtreh
+%	\end{tabular}
+%	\caption{Exemple de liste de cartes avec leur position}
+%	\label{fig:cartesInit}
+%\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\psset{inline=boxed}
+	\setlength{\tabcolsep}{0pt}
+	\begin{tabular}{>{\IEEEstrut[3ex][1ex]}*{11}{c}}
+		Étape &        0         &        1         &        2        &   3    &        4        &        5        &        6         &        7        &        8        &        9         \\
+		0   & \tabnode{\nineh} &      \fiveh      &      \sevh      & \fourh &      \twoh      &      \eigh      &  \tabnode{\Ah}   &      \tenh      &      \sixh      &      \treh       \\
+		1   &       \Ah        & \tabnode{\fiveh} &      \sevh      & \fourh & \tabnode{\twoh} &      \eigh      &      \nineh      &      \tenh      &      \sixh      &      \treh       \\
+		2   &       \Ah        &      \twoh       & \tabnode{\sevh} & \fourh &     \fiveh      &      \eigh      &      \nineh      &      \tenh      &      \sixh      & \tabnode{\treh}  \\
+		3   &       \Ah        &      \twoh       &      \treh      & \fourh &     \fiveh      & \tabnode{\eigh} &      \nineh      &      \tenh      & \tabnode{\sixh} &      \sevh       \\
+		4   &       \Ah        &      \twoh       &      \treh      & \fourh &     \fiveh      &      \sixh      & \tabnode{\nineh} &      \tenh      &      \eigh      & \tabnode{\sevh}  \\
+		5   &       \Ah        &      \twoh       &      \treh      & \fourh &     \fiveh      &      \sixh      &      \sevh       & \tabnode{\tenh} & \tabnode{\eigh} &      \nineh      \\
+		6   &       \Ah        &      \twoh       &      \treh      & \fourh &     \fiveh      &      \sixh      &      \sevh       &      \eigh      & \tabnode{\tenh} & \tabnode{\nineh} \\
+		7   &       \Ah        &      \twoh       &      \treh      & \fourh &     \fiveh      &      \sixh      &      \sevh       &      \eigh      &     \nineh      &      \tenh
+	\end{tabular}
+	\begin{tikzpicture}[overlay] % le tabnode précédent a terminé à 65
+		\draw [perm] ($(1)+(.28,.12)$) -- ($(2)+(-0.42,.12)$);
+		\draw [perm] ($(3)+(.28,.12)$) -- ($(4)+(-0.42,.12)$);
+		\draw [perm] ($(5)+(.28,.12)$) -- ($(6)+(-0.42,.12)$);
+		\draw [perm] ($(7)+(.28,.12)$) -- ($(8)+(-0.42,.12)$);
+		\draw [perm] ($(9)+(.28,.12)$) -- ($(10)+(-0.42,.12)$);
+		\draw [perm] ($(11)+(.28,.12)$) -- ($(12)+(-0.42,.12)$);
+		\draw [perm] ($(13)+(.28,.12)$) -- ($(14)+(-0.42,.12)$);
+	\end{tikzpicture}
+	\caption{Exemple de tri par selection}
+	\label{fig:exple_tri_selection}
+\end{figure}
+
+
+
+
+
+
+\end{document}
