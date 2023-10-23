@@ -1,0 +1,57 @@
+% !TeX encoding = UTF-8
+% !TeX program = xelatex
+% !TeX spellcheck = fr
+\documentclass[10pt,a4paper]{report}
+
+\usepackage[informatique]{styles/preambule_college}
+\usepackage{styles/preambule_personnalisation}
+
+
+\title{Fiches pratiques}
+\author{S. Vannay}
+\date{12.09.2022}
+
+\begin{document}
+
+
+
+
+
+\chapterFormat
+\chapter*{Figures 2D de GeoGebra au QCM Moodle}
+
+
+
+
+
+\section*{Workflow et fichiers utilisés}
+
+
+
+\subsection*{Avec GeoGebra}
+
+\begin{enumerate}
+	\item Le dessin de la figure se fait en GeoGebra dans le répertoire \incmd{images_qcm}.
+	\item Dans GeoGebra, on procède de manière similaire à celle des figures pour les supports de cours avec les nuances suivantes :
+		\begin{itemize}
+			\item \incmd{exportHight = 12}, \incmd{exportWidth = 6.5} (pour mieux correspondre à l'écran d'un téléphone); \newline
+				\textbf{Rem : } avec les points \incmd{Export}\textsubscript{1} et \incmd{Export}\textsubscript{2}, il n'y a pas besoin d'adapter la fenêtre \incmd{Graphique} de GeoGebra pour délimiter la zone à exporter. Il suffit que ces deux points soient dans la zone visible.
+			\item \incmd{Fichier} \textrightarrow \ \incmd{Exporter} \textrightarrow \ \incmd{Graphique en tant qu}'\incmd{image (png, eps)...}
+			\item Laisser en format png, au besoin régler l'échelle.
+			\item Au besoin monter la résolution en 300 dpi.
+			\item Décocher \incmd{Transparent} pour avoir l'image sur fond blanc (pour garantir le contraste et les couleurs) et sauvegarder.
+		\end{itemize}
+	\item Dans le fichier \incmd{.tex}, importer l'image avec
+		\begin{center}
+			\inlatex{\includegraphics[width=6.5cm]{...}}
+		\end{center}
+\end{enumerate}
+
+
+
+\subsection*{Avec des photos}
+
+Ne pas exagérer la taille des fichiers (env. 300kB au maximum) et compiler avec Lua pour éviter un problème de mémoire dynamique lors de la conversion des images.
+
+
+\end{document}
